@@ -1,59 +1,49 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Ruffle SWF Loader</title>
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #ruffle {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="ruffle"></div>
+        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+        <script>
+            var swfobject = {};
 
-    <script src="https://unpkg.com/@ruffle-rs/ruffle/ruffle.js"></script>
+            swfobject.embedSWF = function(url, cont) {
+                var ruffle = window.RufflePlayer.newest(),
+                    player = ruffle.createPlayer();
 
-    <style>
-        body {
-            margin: 0;
-            background: #111;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+                // Append the player to the container and make it fullscreen
+                document.getElementById(cont).appendChild(player);
+                player.style.width = '100%';
+                player.style.height = '100%';
 
-        #flash-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
+                // Load the SWF file
+                player.load({ url: url });
 
-        /* ⭐ make the Flash player BIG */
-        ruffle-player {
-            width: 1000px;   /* Increase this number to make it bigger */
-            height: 700px;
-        }
-    </style>
+                // Update player size on window resize
+                window.addEventListener('resize', function() {
+                    player.style.width = '100%';
+                    player.style.height = '100%';
+                });
+            }
 
-    <script>
-    window.RufflePlayer = window.RufflePlayer || {};
-    window.RufflePlayer.config = {
-        allowScriptAccess: true,
-        unmuteOverlay: "hidden"
-    };
-    </script>
-</head>
-
-<body>
-    <div id="flash-container"></div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const ruffle = window.RufflePlayer.newest();
-            const player = ruffle.createPlayer();
-
-            document.getElementById("flash-container").appendChild(player);
-
-            player.load("https://raw.githubusercontent.com/ResonanceRenaissance/testCDN/refs/heads/main/swords%26swords/swords_and_souls.swf");
-        });
-    </script>
-</body>
+            // Embed the SWF file in fullscreen
+            swfobject.embedSWF('swords_and_souls.swf', 'ruffle');
+        </script>
+    </body>
 </html>
-
-
