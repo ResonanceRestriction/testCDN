@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ruffle SWF Loader</title>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle/ruffle.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #flash-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ⭐ make the Flash player BIG */
+        ruffle-player {
+            width: 1000px;   /* Increase this number to make it bigger */
+            height: 700px;
+        }
+    </style>
+
+    <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+        allowScriptAccess: true,
+        unmuteOverlay: "hidden"
+    };
+    </script>
+</head>
+
+<body>
+    <div id="flash-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+
+            document.getElementById("flash-container").appendChild(player);
+
+            player.load("https://raw.githubusercontent.com/ResonanceRestriction/testCDN/refs/heads/main/664964_game.swf");
+        });
+    </script>
+</body>
+</html>
